@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "Это API для работы с записями.",
-        "title": "My Project API",
+        "title": "Records API",
         "contact": {},
         "version": "1.0"
     },
@@ -52,6 +52,71 @@
                     }
                 }
             }
+        },
+        "/records/:id": {
+            "get": {
+                "description": "Возвращает элемент",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить запись по id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Record"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Заменяет элемент",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Заменить запись по id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Record"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет элемент",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Удалить запись по id",
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Record"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -65,7 +130,7 @@
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "price": {
                     "type": "number"

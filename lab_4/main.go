@@ -1,4 +1,4 @@
-// @title My Project API
+// @title Records API
 // @version 1.0
 // @description Это API для работы с записями.
 // @host localhost:8080

@@ -50,6 +50,12 @@ func PostRecords(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newRecord)
 }
 
+// @Summary Получить запись по id
+// @Description Возвращает элемент
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} data.Record
+// @Router /records/:id [get]
 func GetRecordById(c *gin.Context) {
 	log.Println("records/:id")
 	id := c.Param("id")
@@ -71,6 +77,12 @@ func GetRecordById(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, rec)
 }
 
+// @Summary Удалить запись по id
+// @Description Удаляет элемент
+// @Accept  json
+// @Produce  json
+// @Success 204 {array} data.Record
+// @Router /records/:id [delete]
 func DeleteRecordById(c *gin.Context) {
 	log.Println("records/:id")
 	id := c.Param("id")
@@ -88,6 +100,12 @@ func DeleteRecordById(c *gin.Context) {
 	c.IndentedJSON(http.StatusNoContent, gin.H{"message": "record deleted"})
 }
 
+// @Summary Заменить запись по id
+// @Description Заменяет элемент
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} data.Record
+// @Router /records/:id [put]
 func UpdateRecordById(c *gin.Context) {
 	log.Println("records/:id")
 	id := c.Param("id")

@@ -58,6 +58,71 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/records/:id": {
+            "get": {
+                "description": "Возвращает элемент",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получить запись по id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Record"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Заменяет элемент",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Заменить запись по id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Record"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет элемент",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Удалить запись по id",
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Record"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -71,7 +136,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "price": {
                     "type": "number"
@@ -90,7 +155,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "My Project API",
+	Title:            "Records API",
 	Description:      "Это API для работы с записями.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
