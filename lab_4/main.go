@@ -43,6 +43,9 @@ func main() {
 	router.SetDB(db)
 
 	r := gin.Default()
+
+	r.LoadHTMLGlob("templates/*")
+
 	r.GET("/records", router.GetRecords)
 	r.POST("/records", router.PostRecords)
 	r.GET("/records/:id", router.GetRecordById)

@@ -28,7 +28,8 @@ func GetRecords(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, records)
+	// c.IndentedJSON(http.StatusOK, records)
+	c.HTML(http.StatusOK, "records.html", records)
 }
 
 // @Summary Добавить новую запись
