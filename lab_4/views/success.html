@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+</head>
+<body>
+    <h1>{{ .message }}</h1>
+    {{ if .record }}
+    <p>New Record:</p>
+    <ul>
+        <li>Title: {{ .record.Title }}</li>
+        <li>Artist: {{ .record.Artist }}</li>
+        <li>Genre: {{ .record.Genre }}</li>
+        <li>Price: ${{ .record.Price }}</li>
+    </ul>
+    {{ end }}
+</body>
+</html>

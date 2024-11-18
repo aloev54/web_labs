@@ -25,7 +25,8 @@ func SetDB(database *sql.DB) {
 func GetRecords(c *gin.Context) {
 	records, err := models.GetRecordsDB(db)
 	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		// c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"error": err.Error()})
 		return
 	}
 	// c.IndentedJSON(http.StatusOK, records)
@@ -45,10 +46,10 @@ func PostRecords(c *gin.Context) {
 		return
 	}
 	if err := models.AddRecordDB(db, newRecord); err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"message": err.Error()})
 		return
 	}
-	c.IndentedJSON(http.StatusCreated, newRecord)
+	c.HTML(http.StatusCreated, "success.html", newRecord)
 }
 
 // @Summary Получить запись по id
@@ -63,7 +64,7 @@ func GetRecordById(c *gin.Context) {
 	log.Println(id)
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{"error": "Invalid record ID"})
 	}
 	query := `SELECT id, title, artist, genre, price FROM records WHERE id = ?`
 	row := db.QueryRow(query, idInt)
@@ -71,11 +72,14 @@ func GetRecordById(c *gin.Context) {
 	err = row.Scan(&rec.ID, &rec.Title, &rec.Artist, &rec.Genre, &rec.Price)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			c.IndentedJSON(http.StatusNotFound, gin.H{"message": "record not found"})
+			c.HTML(http.StatusNoContent, "error.html", gin.H{"message": "record not found"})
+			// c.IndentedJSON(http.StatusNotFound, gin.H{"message": "record not found"})
 		}
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"error": err.Error()})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, rec)
+	// c.IndentedJSON(http.StatusOK, rec)
+	c.HTML(http.StatusOK, "records.html", []models.Record{rec})
 }
 
 // @Summary Удалить запись по id
@@ -90,15 +94,18 @@ func DeleteRecordById(c *gin.Context) {
 	log.Println(id)
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		// c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{"error": "Invalid record ID"})
 	}
 	query := `DELETE FROM records WHERE id = ?`
 	result, err := db.Exec(query, idInt)
 	rowsAffected, err := result.RowsAffected()
 	if rowsAffected == 0 {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "record not found"})
+		c.HTML(http.StatusNotFound, "error.html", gin.H{"message": "Record not found"})
 	}
-	c.IndentedJSON(http.StatusNoContent, gin.H{"message": "record deleted"})
+	c.HTML(http.StatusOK, "success.html", gin.H{
+		"message": "Record deleted successfully!",
+	})
 }
 
 // @Summary Заменить запись по id
@@ -113,17 +120,21 @@ func UpdateRecordById(c *gin.Context) {
 	log.Println(id)
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{"error": "Invalid record ID"})
 	}
 	var newRecord models.Record
 	if err := c.BindJSON(&newRecord); err != nil {
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{"error": "Invalid JSON"})
 		return
 	}
 	query := `UPDATE records SET title = ?, artist = ?, genre = ?, price = ? WHERE id = ?`
 	result, err := db.Exec(query, newRecord.Title, newRecord.Artist, newRecord.Genre, newRecord.Price, idInt)
 	rowAffected, err := result.RowsAffected()
 	if rowAffected == 0 {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "record not found"})
+		c.HTML(http.StatusNotFound, "error.html", gin.H{"message": "Record not found"})
 	}
-	c.IndentedJSON(http.StatusOK, newRecord)
+	c.HTML(http.StatusOK, "success.html", gin.H{
+		"message": "Record updated successfully!",
+		"record":  newRecord,
+	})
 }
