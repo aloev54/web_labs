@@ -1,8 +1,8 @@
-package router
+package controllers
 
 import (
 	"database/sql"
-	"lab_4/data"
+	"lab_4/models"
 	"log"
 	"net/http"
 	"strconv"
@@ -20,10 +20,10 @@ func SetDB(database *sql.DB) {
 // @Description Возвращает массив элементов
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} data.Record
+// @Success 200 {array} models.Record
 // @Router /records [get]
 func GetRecords(c *gin.Context) {
-	records, err := data.GetRecordsDB(db)
+	records, err := models.GetRecordsDB(db)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -36,15 +36,15 @@ func GetRecords(c *gin.Context) {
 // @Description Добавляет новый элемент
 // @Accept  json
 // @Produce  json
-// @Success 201 {array} data.Record
+// @Success 201 {array} models.Record
 // @Router /records [post]
 func PostRecords(c *gin.Context) {
 	log.Println("/records")
-	var newRecord data.Record
+	var newRecord models.Record
 	if err := c.BindJSON(&newRecord); err != nil {
 		return
 	}
-	if err := data.AddRecordDB(db, newRecord); err != nil {
+	if err := models.AddRecordDB(db, newRecord); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -55,7 +55,7 @@ func PostRecords(c *gin.Context) {
 // @Description Возвращает элемент
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} data.Record
+// @Success 200 {array} models.Record
 // @Router /records/:id [get]
 func GetRecordById(c *gin.Context) {
 	log.Println("records/:id")
@@ -67,7 +67,7 @@ func GetRecordById(c *gin.Context) {
 	}
 	query := `SELECT id, title, artist, genre, price FROM records WHERE id = ?`
 	row := db.QueryRow(query, idInt)
-	var rec data.Record
+	var rec models.Record
 	err = row.Scan(&rec.ID, &rec.Title, &rec.Artist, &rec.Genre, &rec.Price)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -82,7 +82,7 @@ func GetRecordById(c *gin.Context) {
 // @Description Удаляет элемент
 // @Accept  json
 // @Produce  json
-// @Success 204 {array} data.Record
+// @Success 204 {array} models.Record
 // @Router /records/:id [delete]
 func DeleteRecordById(c *gin.Context) {
 	log.Println("records/:id")
@@ -105,7 +105,7 @@ func DeleteRecordById(c *gin.Context) {
 // @Description Заменяет элемент
 // @Accept  json
 // @Produce  json
-// @Success 200 {array} data.Record
+// @Success 200 {array} models.Record
 // @Router /records/:id [put]
 func UpdateRecordById(c *gin.Context) {
 	log.Println("records/:id")
@@ -115,7 +115,7 @@ func UpdateRecordById(c *gin.Context) {
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
-	var newRecord data.Record
+	var newRecord models.Record
 	if err := c.BindJSON(&newRecord); err != nil {
 		return
 	}

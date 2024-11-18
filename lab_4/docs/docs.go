@@ -31,7 +31,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -52,7 +52,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -75,7 +75,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -96,7 +96,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -117,7 +117,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -126,7 +126,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "data.Record": {
+        "models.Record": {
             "type": "object",
             "properties": {
                 "artist": {

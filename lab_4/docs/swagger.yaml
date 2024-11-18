@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  data.Record:
+  models.Record:
     properties:
       artist:
         type: string
@@ -32,7 +32,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/data.Record'
+              $ref: '#/definitions/models.Record'
             type: array
       summary: Получить все записи
     post:
@@ -46,7 +46,7 @@ paths:
           description: Created
           schema:
             items:
-              $ref: '#/definitions/data.Record'
+              $ref: '#/definitions/models.Record'
             type: array
       summary: Добавить новую запись
   /records/:id:
@@ -61,7 +61,7 @@ paths:
           description: No Content
           schema:
             items:
-              $ref: '#/definitions/data.Record'
+              $ref: '#/definitions/models.Record'
             type: array
       summary: Удалить запись по id
     get:
@@ -75,7 +75,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/data.Record'
+              $ref: '#/definitions/models.Record'
             type: array
       summary: Получить запись по id
     put:
@@ -89,7 +89,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/data.Record'
+              $ref: '#/definitions/models.Record'
             type: array
       summary: Заменить запись по id
 swagger: "2.0"

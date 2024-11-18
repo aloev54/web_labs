@@ -25,7 +25,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -46,7 +46,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -69,7 +69,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -90,7 +90,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -111,7 +111,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/data.Record"
+                                "$ref": "#/definitions/models.Record"
                             }
                         }
                     }
@@ -120,7 +120,7 @@
         }
     },
     "definitions": {
-        "data.Record": {
+        "models.Record": {
             "type": "object",
             "properties": {
                 "artist": {

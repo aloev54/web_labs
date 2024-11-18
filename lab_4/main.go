@@ -7,10 +7,10 @@
 package main
 
 import (
-	"lab_4/router"
 	"log"
 
 	"database/sql"
+	"lab_4/controllers"
 	_ "lab_4/docs"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -40,17 +40,17 @@ func main() {
     );`
 	db.Exec(createTableQuery)
 
-	router.SetDB(db)
+	controllers.SetDB(db)
 
 	r := gin.Default()
 
-	r.LoadHTMLGlob("templates/*")
+	r.LoadHTMLGlob("views/*")
 
-	r.GET("/records", router.GetRecords)
-	r.POST("/records", router.PostRecords)
-	r.GET("/records/:id", router.GetRecordById)
-	r.DELETE("/records/:id", router.DeleteRecordById)
-	r.PUT("/records/:id", router.UpdateRecordById)
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/records", controllers.GetRecords)
+	r.POST("/records", controllers.PostRecords)
+	r.GET("/records/:id", controllers.GetRecordById)
+	r.DELETE("/records/:id", controllers.DeleteRecordById)
+	r.PUT("/records/:id", controllers.UpdateRecordById)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) //to run swag -> http://localhost:8080/swagger/index.html
 	r.Run("localhost:8080")
 }
