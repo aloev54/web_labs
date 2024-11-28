@@ -16,6 +16,11 @@ func SetDB(database *sql.DB) {
 	db = database
 }
 
+// HomePage обрабатывает запросы к главной странице
+func MainPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", nil)
+}
+
 // @Summary Получить все записи
 // @Description Возвращает массив элементов
 // @Accept  json

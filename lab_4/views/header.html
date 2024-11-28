@@ -1,0 +1,63 @@
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <a href="/">
+                <img src="/static/vinil_logo.jpg" alt="Логотип магазина"> <!-- Логотип -->
+            </a>
+        </div>
+        <div class="header-title">
+            Vinil Store
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/records">Записи</a></li>
+                <li><a href="/cart">Корзина</a></li>
+                <!-- <li><a href="/contact">Контакты</a></li> -->
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .header-title {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase; /* Делает текст большими буквами */
+        color: white;
+    }
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+    }
+    .header-container .logo img {
+        height: 50px;
+    }
+    .nav-menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+    .nav-menu ul li {
+        margin: 0 15px;
+    }
+    .nav-menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    .nav-menu ul li a:hover {
+        text-decoration: underline;
+    }
+</style>

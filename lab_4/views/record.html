@@ -1,10 +1,9 @@
-{{ template "header.html" }}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список Записей</title>
+    <title>Информация о записи</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +12,7 @@
             padding: 0;
         }
         .container {
-            width: 80%;
+            width: 50%;
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
@@ -39,35 +38,44 @@
         tr:hover {
             background-color: #f9f9f9;
         }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Список Записей</h1>
+        <h1>Информация о записи</h1>
         <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Название</th>
-                    <th>Исполнитель</th>
-                    <th>Жанр</th>
-                    <th>Цена</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{range .}}
-                <tr>
-                    <td>{{.ID}}</td>
-                    <td>{{.Title}}</td>
-                    <td>{{.Artist}}</td>
-                    <td>{{.Genre}}</td>
-                    <td>{{.Price}}</td>
-                </tr>
-                {{end}}
-            </tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{.ID}}</td>
+            </tr>
+            <tr>
+                <th>Название</th>
+                <td>{{.Title}}</td>
+            </tr>
+            <tr>
+                <th>Исполнитель</th>
+                <td>{{.Artist}}</td>
+            </tr>
+            <tr>
+                <th>Жанр</th>
+                <td>{{.Genre}}</td>
+            </tr>
+            <tr>
+                <th>Цена</th>
+                <td>{{.Price}}</td>
+            </tr>
         </table>
+        <a href="/records" class="back-link">Назад к списку записей</a>
     </div>
 </body>
 </html>
-
-{{template "footer.html"}}

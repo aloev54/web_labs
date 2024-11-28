@@ -1,0 +1,33 @@
+{{ template "header.html" }}
+
+<div class="main-content">
+    <h1>Добро пожаловать в магазин виниловых пластинок</h1>
+
+    <div>
+        <h2>Записи</h2>
+        <form action="/records" method="get">
+            <button type="submit">Показать все записи</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Получить запись по ID</h2>
+        <form action="" onsubmit="navigateToRecord(event)">
+            <label for="recordId">Введите ID записи:</label>
+            <input type="text" id="recordId" name="id" required>
+            <button type="submit">Получить запись</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function navigateToRecord(event) {
+        event.preventDefault(); // Остановить стандартное поведение формы
+        const id = document.getElementById('recordId').value; // Получить значение ID
+        if (id) {
+            window.location.href = `/records/${id}`; // Перенаправить на маршрут
+        }
+    }
+</script>
+
+{{ template "footer.html" }}
