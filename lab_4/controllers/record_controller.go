@@ -21,6 +21,17 @@ func MainPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
 
+func MethodOverrideMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if c.Request.Method == http.MethodPost {
+			if overrideMethod := c.PostForm("_method"); overrideMethod != "" {
+				c.Request.Method = overrideMethod
+			}
+		}
+		c.Next()
+	}
+}
+
 // @Summary Получить все записи
 // @Description Возвращает массив элементов
 // @Accept  json
@@ -47,14 +58,18 @@ func GetRecords(c *gin.Context) {
 func PostRecords(c *gin.Context) {
 	log.Println("/records")
 	var newRecord models.Record
-	if err := c.BindJSON(&newRecord); err != nil {
+	if err := c.ShouldBind(&newRecord); err != nil {
 		return
 	}
 	if err := models.AddRecordDB(db, newRecord); err != nil {
 		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"message": err.Error()})
 		return
 	}
-	c.HTML(http.StatusCreated, "success.html", newRecord)
+	// c.HTML(http.StatusCreated, "success.html", newRecord)
+	c.HTML(http.StatusCreated, "success.html", gin.H{
+		"message": "Record added successfully!",
+		"record":  newRecord,
+	})
 }
 
 // @Summary Получить запись по id
@@ -94,8 +109,10 @@ func GetRecordById(c *gin.Context) {
 // @Success 204 {array} models.Record
 // @Router /records/:id [delete]
 func DeleteRecordById(c *gin.Context) {
-	log.Println("records/:id")
-	id := c.Param("id")
+	// log.Println("records/:id")
+	// id := c.Param("id")
+	id := c.PostForm("id")
+	log.Println("Delete record with ID:", id)
 	log.Println(id)
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
@@ -120,24 +137,34 @@ func DeleteRecordById(c *gin.Context) {
 // @Success 200 {array} models.Record
 // @Router /records/:id [put]
 func UpdateRecordById(c *gin.Context) {
-	log.Println("records/:id")
-	id := c.Param("id")
-	log.Println(id)
+	id := c.PostForm("id")
+	log.Println("Обновление записи с ID:", id)
+
 	idInt, err := strconv.Atoi(id)
 	if err != nil {
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{"error": "Invalid record ID"})
-	}
-	var newRecord models.Record
-	if err := c.BindJSON(&newRecord); err != nil {
-		c.HTML(http.StatusBadRequest, "error.html", gin.H{"error": "Invalid JSON"})
 		return
 	}
+
+	var newRecord models.Record
+	if err := c.ShouldBind(&newRecord); err != nil {
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{"error": "Invalid form data"})
+		return
+	}
+
 	query := `UPDATE records SET title = ?, artist = ?, genre = ?, price = ? WHERE id = ?`
 	result, err := db.Exec(query, newRecord.Title, newRecord.Artist, newRecord.Genre, newRecord.Price, idInt)
-	rowAffected, err := result.RowsAffected()
-	if rowAffected == 0 {
-		c.HTML(http.StatusNotFound, "error.html", gin.H{"message": "Record not found"})
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"error": err.Error()})
+		return
 	}
+
+	rowAffected, err := result.RowsAffected()
+	if err != nil || rowAffected == 0 {
+		c.HTML(http.StatusNotFound, "error.html", gin.H{"message": "Record not found"})
+		return
+	}
+
 	c.HTML(http.StatusOK, "success.html", gin.H{
 		"message": "Record updated successfully!",
 		"record":  newRecord,

@@ -51,9 +51,13 @@ func main() {
 	r.POST("/records", controllers.PostRecords)
 	r.GET("/records/:id", controllers.GetRecordById)
 	r.GET("/records", controllers.GetRecords)
-	r.DELETE("/records/:id", controllers.DeleteRecordById)
-	r.PUT("/records/:id", controllers.UpdateRecordById)
+	// r.DELETE("/records/:id", controllers.DeleteRecordById)
+	r.POST("/records/delete", controllers.DeleteRecordById)
+	// r.Use(controllers.MethodOverrideMiddleware())
+	// r.PUT("/records/update", controllers.UpdateRecordById)
 	// r.POST("/records/:id", controllers.UpdateRecordById)
+	r.POST("/records/update", controllers.UpdateRecordById)
+	r.Use(controllers.MethodOverrideMiddleware())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) //to run swag -> http://localhost:8080/swagger/index.html
 	r.Run("localhost:8080")
 }
