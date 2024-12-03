@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AddToCart добавляет пластинку в корзину
 func AddToCart(c *gin.Context) {
 	recordID := c.PostForm("record_id")
 	quantity := c.PostForm("quantity")
@@ -63,7 +62,7 @@ func ViewCart(c *gin.Context) {
 		Quantity   int
 		Price      float64
 		TotalPrice float64
-		ID         int // Добавляем ID для удаления
+		ID         int
 	}
 
 	for _, item := range cartItems {
@@ -86,7 +85,7 @@ func ViewCart(c *gin.Context) {
 			Quantity:   item.Quantity,
 			Price:      item.TotalPrice / float64(item.Quantity),
 			TotalPrice: item.TotalPrice,
-			ID:         item.RecordID, // Добавляем ID товара для удаления
+			ID:         item.RecordID,
 		})
 	}
 

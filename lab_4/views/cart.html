@@ -14,7 +14,7 @@
                 <th>Количество</th>
                 <th>Цена</th>
                 <th>Итого</th>
-                <th>Действия</th> <!-- Новый столбец для кнопки удаления -->
+                <th></th> 
             </tr>
         </thead>
         <tbody>
@@ -25,7 +25,6 @@
                 <td>{{.Price}}</td>
                 <td>{{.TotalPrice}}</td>
                 <td>
-                    <!-- Форма для удаления товара из корзины -->
                     <form action="/remove-from-cart" method="post">
                         <input type="hidden" name="record_id" value="{{.ID}}">
                         <button type="submit">Удалить</button>
