@@ -31,6 +31,12 @@ func PostRecords(c *gin.Context) {
 	if err := c.BindJSON(&newRecord); err != nil {
 		return
 	}
+	for _, record := range data.Records {
+		if record.ID == newRecord.ID {
+			c.JSON(http.StatusConflict, gin.H{"error": "Record with this ID is already exists"})
+			return
+		}
+	}
 	data.Records = append(data.Records, newRecord)
 	c.IndentedJSON(http.StatusCreated, newRecord)
 }
