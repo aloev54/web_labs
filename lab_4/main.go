@@ -66,5 +66,8 @@ func main() {
 	r.POST("/records/update", controllers.UpdateRecordById)
 	r.Use(controllers.MethodOverrideMiddleware())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) //to run swag -> http://localhost:8080/swagger/index.html
+	r.POST("/cart/add", controllers.AddToCart)
+	r.GET("/cart", controllers.ViewCart)
+	r.POST("/remove-from-cart", controllers.DeleteFromCart)
 	r.Run("localhost:8080")
 }
