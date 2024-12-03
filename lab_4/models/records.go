@@ -2,7 +2,7 @@ package models
 
 import "database/sql"
 
-// Record представляет модель данных для элемента
+// Record представляет модель данных для пластинки
 type Record struct {
 	ID     int     `json:"id"`
 	Title  string  `json:"title"`
@@ -11,12 +11,35 @@ type Record struct {
 	Price  float64 `json:"price"`
 }
 
-// DB Records
-// var Records = []Record{
-// 	{ID: 1, Title: "Stayin Alive", Artist: "Bee Gees", Genre: "Rock", Price: 56.99},
-// 	{ID: 2, Title: "My Heart Will Go On", Artist: "Celein Dilon", Genre: "Pop", Price: 60.79},
-// 	{ID: 3, Title: "Lose Yourself", Artist: "Eminem", Genre: "Rap", Price: 20.99},
-// }
+type CartItem struct {
+	ID         int     `json:"id"`
+	RecordID   int     `json:"record_id"`
+	Quantity   int     `json:"quantity"`
+	TotalPrice float64 `json:"total_price"`
+}
+
+func AddToCart(db *sql.DB, item CartItem) error {
+	query := `INSERT INTO cart_items (record_id, quantity, total_price) VALUES (?,?,?)`
+	_, err := db.Exec(query, item.RecordID, item.Quantity, item.TotalPrice)
+	return err
+}
+
+func GetCartItems(db *sql.DB) ([]CartItem, error) {
+	rows, err := db.Query("SELECT id, record_id, quantity, total_price FROM cart_items")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var cartItems []CartItem
+	for rows.Next() {
+		var item CartItem
+		if err := rows.Scan(&item.ID, &item.RecordID, &item.Quantity, &item.TotalPrice); err != nil {
+			return nil, err
+		}
+		cartItems = append(cartItems, item)
+	}
+	return cartItems, nil
+}
 
 func AddRecordDB(db *sql.DB, record Record) error {
 	query := `INSERT INTO records (title, artist, genre, price) VALUES (?,?,?,?)`

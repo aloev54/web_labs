@@ -40,6 +40,17 @@ func main() {
     );`
 	db.Exec(createTableQuery)
 
+	createCartItemsTable := `
+	CREATE TABLE IF NOT EXISTS cart_items (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		record_id INTEGER NOT NULL,
+		quantity INTEGER NOT NULL,
+		total_price REAL NOT NULL,
+		FOREIGN KEY (record_id) REFERENCES records(id)
+	);
+	`
+	db.Exec(createCartItemsTable)
+
 	controllers.SetDB(db)
 
 	r := gin.Default()
@@ -51,11 +62,7 @@ func main() {
 	r.POST("/records", controllers.PostRecords)
 	r.GET("/records/:id", controllers.GetRecordById)
 	r.GET("/records", controllers.GetRecords)
-	// r.DELETE("/records/:id", controllers.DeleteRecordById)
 	r.POST("/records/delete", controllers.DeleteRecordById)
-	// r.Use(controllers.MethodOverrideMiddleware())
-	// r.PUT("/records/update", controllers.UpdateRecordById)
-	// r.POST("/records/:id", controllers.UpdateRecordById)
 	r.POST("/records/update", controllers.UpdateRecordById)
 	r.Use(controllers.MethodOverrideMiddleware())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) //to run swag -> http://localhost:8080/swagger/index.html
