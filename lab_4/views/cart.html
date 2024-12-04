@@ -1,0 +1,39 @@
+{{ template "header.html" }}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Корзина</title>
+    <link rel="stylesheet" href="/static/css/records_style.css">
+</head>
+<body>
+    <h1>Корзина</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Итого</th>
+                <th></th> 
+            </tr>
+        </thead>
+        <tbody>
+            {{range .}}
+            <tr>
+                <td>{{.Title}}</td>
+                <td>{{.Quantity}}</td>
+                <td>{{.Price}}</td>
+                <td>{{.TotalPrice}}</td>
+                <td>
+                    <form action="/remove-from-cart" method="post">
+                        <input type="hidden" name="record_id" value="{{.ID}}">
+                        <button type="submit">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</body>
+</html>
+{{ template "footer.html" }}

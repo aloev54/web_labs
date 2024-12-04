@@ -1,0 +1,52 @@
+basePath: /
+definitions:
+  data.Record:
+    properties:
+      artist:
+        type: string
+      genre:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Это API для работы с записями.
+  title: My Project API
+  version: "1.0"
+paths:
+  /records:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает массив элементов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/data.Record'
+            type: array
+      summary: Получить все записи
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новый элемент
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/data.Record'
+            type: array
+      summary: Добавить новую запись
+swagger: "2.0"

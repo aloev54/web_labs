@@ -1,0 +1,94 @@
+{{ template "header.html" }}
+
+<div class="main-content">
+    <h1>Добро пожаловать в магазин виниловых пластинок</h1>
+
+    <div>
+        <h2>Записи</h2>
+        <form action="/records" method="get">
+            <button type="submit">Показать все записи</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Получить запись по ID</h2>
+        <form action="" onsubmit="navigateToRecord(event)">
+            <label for="recordId">Введите ID записи:</label>
+            <input type="text" id="recordId" name="id" required>
+            <button type="submit">Получить запись</button>
+        </form>
+    </div>
+    <div>
+        <h2>Добавить новую запись</h2>
+        <form method="POST" action="/records">
+            <label for="Title">Название:</label>
+            <input type="text" name="Title" id="Title" required>
+            <br>
+            <label for="Artist">Исполнитель:</label>
+            <input type="text" name="Artist" id="Artist" required>
+            <br>
+            <label for="Genre">Жанр:</label>
+            <input type="text" name="Genre" id="Genre" required>
+            <br>
+            <label for="Price">Цена:</label>
+            <input type="number" name="Price" id="Price" required>
+            <br>
+            <button type="submit">Add Record</button>
+        </form>
+    </div>
+    <div>
+        <h2>Изменить запись по ID</h2>
+        <form action="/records/update" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            <label for="RecordId">Введите ID записи для изменения:</label>
+            <input type="text" id="RecordId" name="id" required>
+            <br>
+            <label for="NewTitle">Новое название:</label>
+            <input type="text" id="NewTitle" name="Title">
+            <br>
+            <label for="NewArtist">Новый артист:</label>
+            <input type="text" id="NewArtist" name="Artist">
+            <br>
+            <label for="NewGenre">Новый жанр:</label>
+            <input type="text" id="NewGenre" name="Genre">
+            <br>
+            <label for="NewPrice">Новая цена:</label>
+            <input type="number" id="NewPrice" name="Price">
+            <br>
+            <button type="submit">Обновить запись</button>
+        </form>
+    </div>
+    <div>
+        <h2>Удалить запись</h2>
+        <form action="/records/delete" method="POST">
+        <label for="record_id">ID записи:</label>
+        <input type="text" id="record_id" name="id" required>
+        <button type="submit">Delete</button>
+        </form>
+    </div>
+
+    {{ if .message }}
+        <h3>{{ .message }}</h3>
+        {{ if .record }}
+            <h4>Обновленная запись:</h4>
+            <p><strong>ID:</strong> {{ .record.ID }}</p>
+            <p><strong>Title:</strong> {{ .record.Title }}</p>
+            <p><strong>Artist:</strong> {{ .record.Artist }}</p>
+            <p><strong>Genre:</strong> {{ .record.Genre }}</p>
+            <p><strong>Price:</strong> {{ .record.Price }}</p>
+        {{ end }}
+    {{ end }}
+</div>
+
+<script>
+    function navigateToRecord(event) {
+        event.preventDefault(); // Остановить стандартное поведение формы
+        const id = document.getElementById('recordId').value; // Получить значение ID
+        if (id) {
+            window.location.href = `/records/${id}`; // Перенаправить на маршрут
+        }
+    }
+</script>
+<link rel="stylesheet" href="/static/css/styles.css">
+
+{{ template "footer.html" }}

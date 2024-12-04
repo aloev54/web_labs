@@ -1,0 +1,95 @@
+basePath: /
+definitions:
+  models.Record:
+    properties:
+      artist:
+        type: string
+      genre:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Это API для работы с записями.
+  title: Records API
+  version: "1.0"
+paths:
+  /records:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает массив элементов
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Record'
+            type: array
+      summary: Получить все записи
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новый элемент
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/models.Record'
+            type: array
+      summary: Добавить новую запись
+  /records/:id:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет элемент
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            items:
+              $ref: '#/definitions/models.Record'
+            type: array
+      summary: Удалить запись по id
+    get:
+      consumes:
+      - application/json
+      description: Возвращает элемент
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Record'
+            type: array
+      summary: Получить запись по id
+    put:
+      consumes:
+      - application/json
+      description: Заменяет элемент
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Record'
+            type: array
+      summary: Заменить запись по id
+swagger: "2.0"

@@ -1,0 +1,48 @@
+{{ template "header.html" }}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список Записей</title>
+    <link rel="stylesheet" href="/static/css/records_style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Список Записей</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Исполнитель</th>
+                    <th>Жанр</th>
+                    <th>Цена</th>
+                    <th>Добавить в корзину</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .}}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td>{{.Title}}</td>
+                    <td>{{.Artist}}</td>
+                    <td>{{.Genre}}</td>
+                    <td>{{.Price}}</td>
+                    <td class="add-to-cart">
+                        <form action="/cart/add" method="post">
+                            <input type="hidden" name="record_id" value="{{.ID}}">
+                            <label for="quantity-{{.ID}}">Количество:</label>
+                            <input type="number" id="quantity-{{.ID}}" name="quantity" value="1" min="1">
+                            <button type="submit">Добавить в корзину</button>
+                        </form>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+{{template "footer.html"}}
